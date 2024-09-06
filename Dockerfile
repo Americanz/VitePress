@@ -2,19 +2,16 @@ FROM node:16-alpine
 
 WORKDIR /app
 
-# Копіюємо package.json та package-lock.json (якщо є)
 COPY package*.json ./
 
-# Встановлюємо залежності
-RUN npm ci
+RUN npm install
 
-# Копіюємо решту файлів проекту
-COPY . .
+COPY docs/.vitepress /app/docs/.vitepress
 
-# Попередньо будуємо проект
-RUN npm run build
+RUN mkdir -p /app/docs
 
-EXPOSE 8080
+ENV PORT=8080
 
-# Використовуємо скрипт для оновлення та запуску
-CMD sh -c "npm run build && npm run serve"
+EXPOSE $PORT
+
+CMD sh -c "npm run docs:build && npm run docs:preview -- --port $PORT"
