@@ -6,9 +6,8 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY docs/.vitepress /app/docs/.vitepress
-
-RUN mkdir -p /app/docs
+# Копіюємо весь вміст docs
+COPY docs /app/docs
 
 ENV PORT=8080
 
