@@ -1,15 +1,15 @@
-FROM node:16
+FROM oven/bun:latest
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN bun install
 
 COPY . .
 
-RUN npm run build
+RUN bun run build
 
 EXPOSE 8080
 
-CMD ["npm", "run", "serve"]
+CMD ["bun", "run", "serve"]

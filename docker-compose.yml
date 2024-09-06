@@ -6,4 +6,4 @@ services:
       - "8080:8080"
     volumes:
       - .:/app
-    command: npm run build && npm run serve
+    command: bun run dev
