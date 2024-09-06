@@ -1,15 +1,18 @@
-FROM oven/bun:latest
+FROM node:16-alpine
 
 WORKDIR /app
 
+# Встановлюємо залежності для збірки, якщо вони потрібні
+RUN apk add --no-cache python3 make g++
+
 COPY package*.json ./
 
-RUN bun install
+RUN npm ci --only=production
 
 COPY . .
 
-RUN bun run build
+RUN npm run build
 
 EXPOSE 8080
 
-CMD ["bun", "run", "serve"]
+CMD ["npm", "run", "serve"]
