@@ -2,17 +2,19 @@ FROM node:16-alpine
 
 WORKDIR /app
 
-# Встановлюємо залежності для збірки, якщо вони потрібні
-RUN apk add --no-cache python3 make g++
-
+# Копіюємо package.json та package-lock.json (якщо є)
 COPY package*.json ./
 
-RUN npm ci --only=production
+# Встановлюємо залежності
+RUN npm ci
 
+# Копіюємо решту файлів проекту
 COPY . .
 
+# Попередньо будуємо проект
 RUN npm run build
 
 EXPOSE 8080
 
-CMD ["npm", "run", "serve"]
+# Використовуємо скрипт для оновлення та запуску
+CMD sh -c "npm run build && npm run serve"
